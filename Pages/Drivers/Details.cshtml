@@ -1,0 +1,91 @@
+@page
+@model FinalProject.Pages.Drivers.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Driver</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Driver.FirstName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Driver.FirstName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Driver.LastName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Driver.LastName)
+        </dd>
+
+        <dt class="col-sm-2">
+    @Html.DisplayNameFor(model => model.Driver.TruckDrivers)
+</dt>
+<dd class="col-sm-10">
+    @foreach(var truck in Model.Driver.TruckDrivers!)
+    {
+        @Html.DisplayFor(model => truck.Truck.Description)<br>
+    }
+</dd>
+
+
+
+
+
+<dt class ="col-sm-10">Assigned Reefer</dt>
+<dd class="col-sm-10">
+    @if (Model.Driver.Reefer !=null)
+    {
+        
+<dd class="col-sm-10">
+    @if (Model.Driver.Reefer !=null)
+        {
+        <form method="post">
+            <input type="hidden" asp-for="ReeferIDToDelete" value="@Model.Driver.ReeferID" />
+            @Model.Driver.Reefer.Description
+            <button type="submit" class="btn btn-danger btn-sm my-1" asp-page-handler="DropReefer" asp-route-id="@Model.Driver.DriverID">Drop Reefer</button>
+            <br>
+        </form>
+    }
+    else{
+        <p>No Reefer assigned</p>
+    }
+</dd>
+    }
+
+
+
+<form method="post">
+    <div class="row align-items-center">
+        <dt class="col-sm-2">
+            <label asp-for="ReeferIDToAdd" class="control-label"></label>
+        </dt>
+        <div class="col-auto">
+            <select asp-for="ReeferIDToAdd" asp-items="Model.ReefersDropDown" class="form-select">
+                <option value="">Choose...</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary" asp-page-handler="AddReefer" asp-route-id="@Model.Driver.DriverID">Add Reefer</button>
+        </div>
+        <div class="col-auto">
+            <span asp-validation-for="ReeferIDToAdd" class="text-danger"></span>
+        </div>
+</form>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Driver.DriverID">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

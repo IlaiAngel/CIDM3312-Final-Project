@@ -33,7 +33,7 @@ public class AdminModel : PageModel
         if (Username == AdminUser && Password == AdminPass)
         {
             //Redirecting to index for now until i start adding my data in 
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Drivers/Index");
         }
         else
         {
